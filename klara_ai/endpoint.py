@@ -12,4 +12,4 @@ class Endpoint:
         data = {'audio': base64_string}
         response = requests.post(url, headers=headers, json=data)
         return response.json()
- 
+  

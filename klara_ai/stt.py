@@ -71,3 +71,4 @@ if __name__ == "__main__":
     stt = STT(config)
     while True:
         print(stt.listen())
+ 
