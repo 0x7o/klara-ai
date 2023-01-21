@@ -42,11 +42,11 @@ class STT:
                 break
             if self.rec.AcceptWaveform(data):
                 self.wav.append(data)
-                print(self.rec.Result())
                 try:
                     text = json.loads(self.rec.Result())
                 except:
                     text = {"text": ""}
+                print(text)
                 if text["text"] != "":
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
