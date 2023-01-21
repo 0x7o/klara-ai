@@ -49,7 +49,6 @@ class STT:
                     text = json.loads(self.rec.Result())
                 except:
                     text = {"text": ""}
-                print(text)
                 if text["text"] != "":
                     pixels.think()
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
@@ -83,11 +82,14 @@ if __name__ == "__main__":
     dialog = Dialog(config)
     while True:
         text = stt.listen()
+        print(f"* Human: {text}")
         # tts
         if text != "":
             print(text)
             pixels.think()
+            print("* generating")
             text = dialog.get_response(text)
+            print(f"* AI: {text}")
             wav = endpoint.tts_request(text)
             print("* playing")
             # save to temp file
