@@ -35,6 +35,7 @@ class Dialog:
         base_prompt = self.config.get_config("base_prompt")
         bot_name = self.config.get_config("bot_name")
         history = self.get_history()
+        history_split = history[-self.config.get_config("history_split") :]
         prompt = base_prompt
         for i in range(len(history)):
             prompt += f"Human: {history[i]['human']}\n{bot_name}: {history[i]['ai']}\n"
@@ -44,11 +45,10 @@ class Dialog:
     def get_response(self, human):
         bot_name = self.config.get_config("bot_name")
         prompt = self.get_prompt(human)
-        print(prompt)
         response = openai.Completion.create(
-            engine="davinci",
+            engine="text-davinci-003",
             prompt=prompt,
-            temperature=0.7,
+            temperature=1.0,
             max_tokens=150,
             top_p=1,
             stop=["\n", " Human:", f" {bot_name}:"],
