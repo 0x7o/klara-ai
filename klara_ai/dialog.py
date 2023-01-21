@@ -35,9 +35,9 @@ class Dialog:
         base_prompt = self.config.get_config("base_prompt")
         bot_name = self.config.get_config("bot_name")
         history = self.get_history()
-        history_split = history[-self.config.get_config("history_split") :]
+        history_split = self.config.get_config("history_split")
         prompt = base_prompt
-        for i in range(len(history)):
+        for i in range(len(history) - history_split, len(history)):
             prompt += f"Human: {history[i]['human']}\n{bot_name}: {history[i]['ai']}\n"
         prompt += f"Human: {human}\n{bot_name}:"
         return prompt
