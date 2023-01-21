@@ -12,7 +12,7 @@ import json
 
 
 class STT:
-    def __init__(self, config: Config, endpoint: Endpoint, pixels: Pixels):
+    def __init__(self, config: Config, endpoint: Endpoint):
         self.config = config
         try:
             self.model = Model(self.config.get_config("model_path"))
@@ -50,7 +50,6 @@ class STT:
                 except:
                     text = {"text": ""}
                 if text["text"] != "":
-                    pixels.think()
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
                     base64_string = base64_bytes.decode("utf-8")
@@ -78,7 +77,7 @@ if __name__ == "__main__":
     endpoint = Endpoint(config)
     pixels = Pixels()
     pixels.wakeup()
-    stt = STT(config, endpoint, pixels)
+    stt = STT(config, endpoint)
     dialog = Dialog(config)
     while True:
         text = stt.listen()
