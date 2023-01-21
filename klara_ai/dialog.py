@@ -57,7 +57,7 @@ class Dialog:
         text = response.choices[0].text
         self.write_history(text, human)
         lang = self.config.get_config("bot_language")
-        return self.endpoint.translate_request(text, "en", "ru", "Woman", "Женщина")
+        return self.endpoint.translate_request(text, "en", "ru", "Woman", "Женщина: ")
 
 
 if __name__ == "__main__":
