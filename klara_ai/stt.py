@@ -1,9 +1,9 @@
 from vosk import Model, KaldiRecognizer
 from endpoint import Endpoint
 from config import Config
+from pixels import Pixels
 import sounddevice as sd
 import soundfile as sf
-from pi import pixels
 import numpy as np
 import pyaudio
 import base64
@@ -11,7 +11,7 @@ import json
 
 
 class STT:
-    def __init__(self, config: Config, endpoint: Endpoint, pixels: pixels.Pixels):
+    def __init__(self, config: Config, endpoint: Endpoint, pixels: Pixels):
         self.config = config
         try:
             self.model = Model(self.config.get_config("model_path"))
@@ -76,7 +76,7 @@ class STT:
 if __name__ == "__main__":
     config = Config("config.json")
     endpoint = Endpoint(config)
-    pixels = pixels.Pixels()
+    pixels = Pixels()
     pixels.wakeup()
     stt = STT(config, endpoint, pixels)
     while True:
