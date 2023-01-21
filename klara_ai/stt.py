@@ -1,6 +1,8 @@
 from vosk import Model, KaldiRecognizer
 from endpoint import Endpoint
 from config import Config
+import sounddevice as sd
+import soundfile as sf
 import numpy as np
 import pyaudio
 import base64
@@ -8,7 +10,7 @@ import json
 
 
 class STT:
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, endpoint: Endpoint):
         self.config = config
         try:
             self.model = Model(self.config.get_config("model_path"))
@@ -24,10 +26,11 @@ class STT:
             rate=self.config.get_config("sample_rate"),
             input=True,
             frames_per_buffer=self.config.get_config("frames_per_buffer"),
+            device_index=self.config.get_config("device_index"),
         )
         self.stream.start_stream()
         self.wav = []
-        self.endpoint = Endpoint(self.config)
+        self.endpoint = endpoint
 
     def listen(self):
         c = 0
@@ -39,6 +42,7 @@ class STT:
                 break
             if self.rec.AcceptWaveform(data):
                 self.wav.append(data)
+                print(self.rec.Result())
                 try:
                     text = json.loads(self.rec.Result())
                 except:
@@ -47,7 +51,7 @@ class STT:
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
                     base64_string = base64_bytes.decode("utf-8")
-                    print("decoding")
+                    print("* decoding")
                     response = self.endpoint.stt_request(base64_string)
                     self.wav = []
                     c = 0
@@ -68,7 +72,19 @@ class STT:
 
 if __name__ == "__main__":
     config = Config("config.json")
-    stt = STT(config)
+    endpoint = Endpoint(config)
+    stt = STT(config, endpoint)
     while True:
-        print(stt.listen())
- 
+        text = stt.listen()
+        # tts
+        if text != "":
+            print(text)
+            wav = endpoint.tts_request(text)
+            print("* playing")
+            # save to temp file
+            with open("temp.wav", "wb") as f:
+                f.write(wav)
+            # play
+            data, fs = sf.read("temp.wav", dtype="float32")
+            sd.play(data, fs)
+            status = sd.wait()

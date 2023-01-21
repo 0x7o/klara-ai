@@ -35,6 +35,7 @@ class Config:
             "channels": 2,
             "frames_per_buffer": 4000,
             "endpoint_url": "http://localhost:8000",
+            "device_index": 0,
         }
         with open(self.config_file, "w") as f:
             json.dump(default_config, f, indent=4)
