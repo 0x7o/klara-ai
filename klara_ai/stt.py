@@ -3,6 +3,7 @@ from endpoint import Endpoint
 from config import Config
 import sounddevice as sd
 import soundfile as sf
+from pi import pixels
 import numpy as np
 import pyaudio
 import base64
@@ -10,7 +11,7 @@ import json
 
 
 class STT:
-    def __init__(self, config: Config, endpoint: Endpoint):
+    def __init__(self, config: Config, endpoint: Endpoint, pixels: pixels.Pixels):
         self.config = config
         try:
             self.model = Model(self.config.get_config("model_path"))
@@ -34,6 +35,7 @@ class STT:
 
     def listen(self):
         c = 0
+        pixels.listen()
         while True:
             data = self.stream.read(
                 self.config.get_config("frames_per_buffer"), exception_on_overflow=False
@@ -48,6 +50,7 @@ class STT:
                     text = {"text": ""}
                 print(text)
                 if text["text"] != "":
+                    pixels.think()
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
                     base64_string = base64_bytes.decode("utf-8")
@@ -73,7 +76,9 @@ class STT:
 if __name__ == "__main__":
     config = Config("config.json")
     endpoint = Endpoint(config)
-    stt = STT(config, endpoint)
+    pixels = pixels.Pixels()
+    pixels.wakeup()
+    stt = STT(config, endpoint, pixels)
     while True:
         text = stt.listen()
         # tts
@@ -85,6 +90,8 @@ if __name__ == "__main__":
             with open("temp.wav", "wb") as f:
                 f.write(wav)
             # play
+            pixels.speak()
             data, fs = sf.read("temp.wav", dtype="float32")
             sd.play(data, fs)
             status = sd.wait()
+            pixels.off()
