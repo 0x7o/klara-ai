@@ -2,6 +2,7 @@ from vosk import Model, KaldiRecognizer
 from endpoint import Endpoint
 from config import Config
 from pixels import Pixels
+from dialog import Dialog
 import sounddevice as sd
 import soundfile as sf
 import numpy as np
@@ -79,11 +80,14 @@ if __name__ == "__main__":
     pixels = Pixels()
     pixels.wakeup()
     stt = STT(config, endpoint, pixels)
+    dialog = Dialog(config)
     while True:
         text = stt.listen()
         # tts
         if text != "":
             print(text)
+            pixels.think()
+            text = dialog.get_response(text)
             wav = endpoint.tts_request(text)
             print("* playing")
             # save to temp file

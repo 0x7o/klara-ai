@@ -30,12 +30,17 @@ class Config:
     def create_config(self):
         default_config = {
             "model_path": "vosk-model-small-ru-0.22",
-            "sample_rate": 8000,
+            "sample_rate": 16000,
             "format": pyaudio.paInt16,
-            "channels": 2,
-            "frames_per_buffer": 4000,
+            "channels": 1,
+            "frames_per_buffer": 8000,
             "endpoint_url": "http://localhost:8000",
-            "device_index": 0,
+            "device_index": 1,
+            "bot_name": "Klara",
+            "bot_language": "ru",
+            "base_prompt": "This is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n",
+            "history_file": "history.json",
+            "openai_api_key": "YOUR_OPENAI_API_KEY",
         }
         with open(self.config_file, "w") as f:
             json.dump(default_config, f, indent=4)
