@@ -38,4 +38,4 @@ class Endpoint:
             "gender_translation": gender_translation,
         }
         response = requests.post(url, headers=headers, json=data)
-        return response.json()["text"]
+        return response.json()
