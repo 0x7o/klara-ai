@@ -26,7 +26,7 @@ class STT:
             rate=self.config.get_config("sample_rate"),
             input=True,
             frames_per_buffer=self.config.get_config("frames_per_buffer"),
-            device_index=self.config.get_config("device_index"),
+            input_device_index=self.config.get_config("device_index"),
         )
         self.stream.start_stream()
         self.wav = []
