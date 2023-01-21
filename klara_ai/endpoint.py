@@ -28,7 +28,7 @@ class Endpoint:
     def translate_request(
         self, text, src_lang, tgt_lang, gender_name, gender_translation
     ):
-        url = self.config.get_config("endpoint_url") + "/translate"
+        url = self.config.get_config("endpoint_url") + "/nllb"
         headers = {"Content-Type": "application/json"}
         data = {
             "text": text,

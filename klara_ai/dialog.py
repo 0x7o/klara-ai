@@ -49,7 +49,7 @@ class Dialog:
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
-            temperature=1.0,
+            temperature=0.9,
             max_tokens=150,
             top_p=1,
             stop=["\n", " Human:", f" {bot_name}:"],

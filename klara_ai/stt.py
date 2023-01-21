@@ -85,7 +85,6 @@ if __name__ == "__main__":
         print(f"* Human: {text}")
         # tts
         if text != "":
-            print(text)
             pixels.think()
             print("* generating")
             text = dialog.get_response(text)
