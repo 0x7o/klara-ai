@@ -1,4 +1,4 @@
-import translators.server as ts
+from endpoint import Endpoint
 from config import Config
 import openai
 import json
@@ -8,6 +8,7 @@ import os
 class Dialog:
     def __init__(self, config: Config):
         self.config = config
+        self.endpoint = Endpoint(config)
         openai.api_key = self.config.get_config("openai_api_key")
 
     def get_history(self):
@@ -37,7 +38,7 @@ class Dialog:
         history = self.get_history()
         # history_split = self.config.get_config("history_split")
         prompt = base_prompt
-        for i in range(len(history)):
+        for i in range(len(history[10:])):
             prompt += f"Human: {history[i]['human']}\n{bot_name}: {history[i]['ai']}\n"
         prompt += f"Human: {human}\n{bot_name}:"
         return prompt
@@ -56,7 +57,7 @@ class Dialog:
         text = response.choices[0].text
         self.write_history(text, human)
         lang = self.config.get_config("bot_language")
-        return ts.google(text, to_language=lang, from_language="en")
+        return self.endpoint.translate_request(text, "eng_Latn", "rus_Cyrl", "Female", "Женщина")
 
 
 if __name__ == "__main__":

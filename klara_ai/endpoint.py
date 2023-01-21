@@ -24,3 +24,18 @@ class Endpoint:
         base64_bytes = base64_string.encode("utf-8")
         wav = base64.b64decode(base64_bytes)
         return wav
+
+    def translate_request(
+        self, text, src_lang, tgt_lang, gender_name, gender_translation
+    ):
+        url = self.config.get_config("endpoint_url") + "/translate"
+        headers = {"Content-Type": "application/json"}
+        data = {
+            "text": text,
+            "src_lang": src_lang,
+            "tgt_lang": tgt_lang,
+            "gender_name": gender_name,
+            "gender_translation": gender_translation,
+        }
+        response = requests.post(url, headers=headers, json=data)
+        return response.json()["text"]
