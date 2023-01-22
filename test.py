@@ -22,13 +22,15 @@ if __name__ == "__main__":
     is_listening = False
     while True:
         if not is_listening:
-            text = stt.listen(process=False)
+            text = stt.listen()
+            print(text)
             if "клара" in text:
                 print(text)
                 pix.listen()
                 is_listening = True
         else:
             text = stt.listen()
+            print(text)
             if text != "":
                 print(text)
                 pix.think()

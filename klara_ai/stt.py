@@ -1,8 +1,6 @@
 from vosk import Model, KaldiRecognizer
 from .endpoint import Endpoint
 from .config import Config
-from .pixels import Pixels
-from .dialog import OpenAI
 import sounddevice as sd
 import soundfile as sf
 import numpy as np
