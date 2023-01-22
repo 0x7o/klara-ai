@@ -1,5 +1,5 @@
-from endpoint import Endpoint
-from config import Config
+from .endpoint import Endpoint
+from .config import Config
 import openai
 import json
 import os

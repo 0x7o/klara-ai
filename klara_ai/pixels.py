@@ -1,4 +1,4 @@
-import apa102
+from .apa102 import APA102
 import time
 import threading
 import queue as Queue
@@ -15,7 +15,7 @@ class Pixels:
         self.basis[7] = 2
 
         self.colors = [0] * 3 * self.PIXELS_N
-        self.dev = apa102.APA102(num_led=self.PIXELS_N)
+        self.dev = APA102(num_led=self.PIXELS_N)
 
         self.next = threading.Event()
         self.queue = Queue.Queue()

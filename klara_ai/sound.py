@@ -1,4 +1,4 @@
-from config import Config
+from .config import Config
 import pyaudio
 import wave
 
@@ -18,7 +18,7 @@ class Sound:
             channels=wf.getnchannels(),
             rate=wf.getframerate(),
             output=True,
-            output_device_index=self.config.get_config("device_index"),
+            output_device_index=self.config.get_config("output_device_index"),
         )
         data = wf.readframes(1024)
         while data != b"":

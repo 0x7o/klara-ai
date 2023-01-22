@@ -1,8 +1,6 @@
 from vosk import Model, KaldiRecognizer
-from endpoint import Endpoint
-from config import Config
-from pixels import Pixels
-from dialog import Dialog
+from .endpoint import Endpoint
+from .config import Config
 import sounddevice as sd
 import soundfile as sf
 import numpy as np
@@ -11,6 +9,7 @@ import base64
 import json
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 

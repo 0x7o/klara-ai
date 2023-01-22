@@ -1,4 +1,4 @@
-from config import Config
+from .config import Config
 import requests
 import base64
 
