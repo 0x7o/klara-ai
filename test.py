@@ -34,6 +34,7 @@ if __name__ == "__main__":
                 print(text)
                 pix.think()
                 time.sleep(1)
-                pix.off()
+                pix.listen()
             else:
                 is_listening = False
+                pix.off()
