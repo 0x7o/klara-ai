@@ -22,7 +22,7 @@ if __name__ == "__main__":
     is_listening = False
     while True:
         if not is_listening:
-            text = stt.listen()
+            text = stt.listen(process=False)
             print(text)
             if "клара" in text:
                 print(text)

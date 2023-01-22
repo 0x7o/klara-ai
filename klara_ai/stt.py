@@ -80,32 +80,3 @@ class STT:
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-
-
-if __name__ == "__main__":
-    config = Config("config.json")
-    endpoint = Endpoint(config)
-    pixels = Pixels()
-    pixels.wakeup()
-    stt = STT(config, endpoint)
-    dialog = OpenAI(config)
-    while True:
-        text = stt.listen()
-        print(f"* Human: {text}")
-        # tts
-        if text != "":
-            pixels.think()
-            print("* generating")
-            text = dialog.get_response(text)
-            print(f"* AI: {text}")
-            wav = endpoint.tts_request(text)
-            print("* playing")
-            # save to temp file
-            with open("temp.wav", "wb") as f:
-                f.write(wav)
-            # play
-            pixels.speak()
-            data, fs = sf.read("temp.wav", dtype="float32")
-            sd.play(data, fs)
-            status = sd.wait()
-            pixels.off()
