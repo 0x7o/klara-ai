@@ -1,6 +1,5 @@
 from klara_ai import Config, STT, Sound, OpenAI, Endpoint, pixels
 import logging
-import time
 
 logging.basicConfig(
     level=logging.INFO,
@@ -24,8 +23,8 @@ if __name__ == "__main__":
     while True:
         if not is_listening:
             text = stt.listen(process=False)
-            print(text)
             if "клара" in text:
+                print(text)
                 pix.listen()
                 is_listening = True
         else:
@@ -33,7 +32,8 @@ if __name__ == "__main__":
             if text != "":
                 print(text)
                 pix.think()
-                time.sleep(1)
+                intent = endpoint.intent_request(text)
+                print(intent)
                 pix.listen()
             else:
                 is_listening = False
