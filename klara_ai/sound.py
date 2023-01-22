@@ -3,7 +3,7 @@ import pyaudio
 import wave
 
 
-class Sounds:
+class Sound:
     def __init__(self, config: Config):
         self.config = config
         self.p = pyaudio.PyAudio()
@@ -30,6 +30,6 @@ class Sounds:
 
 if __name__ == "__main__":
     config = Config("config.json")
-    sounds = Sounds(config)
+    sounds = Sound(config)
     sounds.play("start")
     sounds.close()

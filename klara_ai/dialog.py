@@ -5,7 +5,7 @@ import json
 import os
 
 
-class Dialog:
+class OpenAI:
     def __init__(self, config: Config):
         self.config = config
         self.endpoint = Endpoint(config)
@@ -62,5 +62,5 @@ class Dialog:
 
 if __name__ == "__main__":
     config = Config("config.json")
-    dialog = Dialog(config.get_config("openai_api_key"), config)
+    dialog = OpenAI(config.get_config("openai_api_key"), config)
     print(dialog.get_response("Hello"))
