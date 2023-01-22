@@ -33,13 +33,13 @@ class STT:
             rate=self.config.get_config("sample_rate"),
             input=True,
             frames_per_buffer=self.config.get_config("frames_per_buffer"),
-            input_device_index=self.config.get_config("device_index"),
+            input_device_index=self.config.get_config("input_device_index"),
         )
         self.stream.start_stream()
         self.wav = []
         self.endpoint = endpoint
 
-    def listen(self):
+    def listen(self, process=True):
         c = 0
         while True:
             data = self.stream.read(
@@ -53,7 +53,7 @@ class STT:
                     text = json.loads(self.rec.Result())
                 except:
                     text = {"text": ""}
-                if text["text"] != "":
+                if text["text"] != "" and process:
                     logger.info(f"Recognized: {text['text']}")
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
@@ -63,6 +63,11 @@ class STT:
                     c = 0
                     logger.info(f"Response: {response}")
                     return response
+                elif text["text"] != "" and not process:
+                    logger.info(f"Recognized: {text['text']}")
+                    self.wav = []
+                    c = 0
+                    return text["text"]
                 else:
                     c += 1
                     if c > 2:

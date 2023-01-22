@@ -17,3 +17,18 @@ openai = OpenAI(config)
 
 if __name__ == "__main__":
     sound.play("start")
+    is_listening = False
+    while True:
+        if not is_listening:
+            text = stt.listen(process=False)
+            print(text)
+            if "клара" in text:
+                sound.play("start")
+                is_listening = True
+        else:
+            text = stt.listen()
+            if text != "":
+                print(text)
+            else:
+                is_listening = False
+                sound.play("end")
