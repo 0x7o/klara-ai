@@ -1,6 +1,8 @@
 from vosk import Model, KaldiRecognizer
 from .endpoint import Endpoint
 from .config import Config
+from .pixels import Pixels
+from .dialog import OpenAI
 import sounddevice as sd
 import soundfile as sf
 import numpy as np
@@ -88,7 +90,7 @@ if __name__ == "__main__":
     pixels = Pixels()
     pixels.wakeup()
     stt = STT(config, endpoint)
-    dialog = Dialog(config)
+    dialog = OpenAI(config)
     while True:
         text = stt.listen()
         print(f"* Human: {text}")
