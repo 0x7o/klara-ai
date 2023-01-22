@@ -1,4 +1,5 @@
 from .config import Config
+import subprocess
 import pyaudio
 import wave
 
@@ -12,12 +13,12 @@ class Sound:
         self.config = config
         self.p = pyaudio.PyAudio()
 
-    def play(self, sound, sample_rate=24000):
+    def play(self, sound):
         logger.info(f"Playing sound: {sound}")
         wf = wave.open(self.config.get_config("sounds")[sound], "rb")
         stream = self.p.open(
+            format=self.p.get_format_from_width(wf.getsampwidth()),
             channels=wf.getnchannels(),
-            format=sample_rate,
             rate=wf.getframerate(),
             output=True,
             output_device_index=self.config.get_config("output_device_index"),
@@ -28,6 +29,10 @@ class Sound:
             data = wf.readframes(1024)
         stream.stop_stream()
         stream.close()
+
+    def aplay(self, sound):
+        logger.info(f"Playing sound: {sound}")
+        subprocess.run(["aplay", "-D", '"plughw:3,0"', self.config.get_config("sounds")[sound]])
 
     def close(self):
         self.p.terminate()

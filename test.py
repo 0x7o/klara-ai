@@ -16,7 +16,7 @@ sound = Sound(config)
 openai = OpenAI(config)
 
 if __name__ == "__main__":
-    sound.play("start")
+    sound.aplay("start")
     is_listening = False
     while True:
         if not is_listening:
@@ -31,4 +31,4 @@ if __name__ == "__main__":
                 print(text)
             else:
                 is_listening = False
-                sound.play("end")
+                sound.aplay("end")
