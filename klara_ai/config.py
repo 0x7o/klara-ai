@@ -41,6 +41,11 @@ class Config:
             "base_prompt": "This is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n",
             "history_file": "history.json",
             "openai_api_key": "YOUR_OPENAI_API_KEY",
+            "sounds": {
+                "start": "sounds/start.wav",
+                "end": "sounds/end.wav",
+                "error": "sounds/error.wav",
+            },
         }
         with open(self.config_file, "w") as f:
             json.dump(default_config, f, indent=4)
