@@ -46,11 +46,11 @@ class Endpoint:
         }
         response = requests.post(url, headers=headers, json=data)
         return response.json()
-    
+
     def intent_request(self, text):
         logger.info("Sending request to intent endpoint")
         url = self.config.get_config("endpoint_url") + "/intent"
         headers = {"Content-Type": "application/json"}
         data = {"text": text}
         response = requests.post(url, headers=headers, json=data)
-        return response.json()
+        return response.json()[0]["label"]
