@@ -28,10 +28,6 @@ if __name__ == "__main__":
             if "клара" in text:
                 pix.listen()
                 is_listening = True
-                if len(text) > 1:
-                    pix.think()
-                    time.sleep(1)
-                    pix.off()
         else:
             text = stt.listen()
             if text != "":
