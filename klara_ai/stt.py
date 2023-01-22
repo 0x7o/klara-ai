@@ -10,6 +10,9 @@ import pyaudio
 import base64
 import json
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class STT:
     def __init__(self, config: Config, endpoint: Endpoint):
@@ -17,6 +20,9 @@ class STT:
         try:
             self.model = Model(self.config.get_config("model_path"))
         except:
+            logger.error(
+                "Please download the model from https://alphacephei.com/vosk/models and unpack as '{self.config.get_config('model_path')}' in the current folder."
+            )
             assert (
                 False
             ), f"Please download the model from https://alphacephei.com/vosk/models and unpack as '{self.config.get_config('model_path')}' in the current folder."
@@ -36,7 +42,6 @@ class STT:
 
     def listen(self):
         c = 0
-        pixels.listen()
         while True:
             data = self.stream.read(
                 self.config.get_config("frames_per_buffer"), exception_on_overflow=False
@@ -50,13 +55,14 @@ class STT:
                 except:
                     text = {"text": ""}
                 if text["text"] != "":
+                    logger.info(f"Recognized: {text['text']}")
                     wav = np.frombuffer(b"".join(self.wav), dtype=np.int16)
                     base64_bytes = base64.b64encode(wav)
                     base64_string = base64_bytes.decode("utf-8")
-                    print("* decoding")
                     response = self.endpoint.stt_request(base64_string)
                     self.wav = []
                     c = 0
+                    logger.info(f"Response: {response}")
                     return response
                 else:
                     c += 1

@@ -2,12 +2,17 @@ from config import Config
 import requests
 import base64
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class Endpoint:
     def __init__(self, config: Config):
         self.config = config
 
     def stt_request(self, base64_string):
+        logger.info("Sending request to stt endpoint")
         url = self.config.get_config("endpoint_url") + "/stt"
         headers = {"Content-Type": "application/json"}
         data = {"audio": base64_string}
@@ -15,6 +20,7 @@ class Endpoint:
         return response.json()
 
     def tts_request(self, text):
+        logger.info("Sending request to tts endpoint")
         url = self.config.get_config("endpoint_url") + "/tts"
         headers = {"Content-Type": "application/json"}
         data = {"text": text}
@@ -28,6 +34,7 @@ class Endpoint:
     def translate_request(
         self, text, src_lang, tgt_lang, gender_name, gender_translation
     ):
+        logger.info("Sending request to translate endpoint")
         url = self.config.get_config("endpoint_url") + "/nllb"
         headers = {"Content-Type": "application/json"}
         data = {

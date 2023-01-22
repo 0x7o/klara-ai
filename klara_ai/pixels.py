@@ -1,11 +1,7 @@
 import apa102
 import time
 import threading
-
-try:
-    import queue as Queue
-except ImportError:
-    import Queue as Queue
+import queue as Queue
 
 
 class Pixels:
@@ -87,8 +83,6 @@ class Pixels:
             time.sleep(t)
             t /= 2
 
-        # time.sleep(0.5)
-
         self.colors = colors
 
     def _speak(self):
@@ -111,8 +105,6 @@ class Pixels:
             position -= 1
             self.write([(v * position / 24) for v in colors])
             time.sleep(0.01)
-
-        # self._off()
 
     def _off(self):
         self.write([0] * 3 * self.PIXELS_N)

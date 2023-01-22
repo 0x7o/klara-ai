@@ -4,6 +4,9 @@ import openai
 import json
 import os
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class OpenAI:
     def __init__(self, config: Config):
@@ -44,6 +47,7 @@ class OpenAI:
         return prompt
 
     def get_response(self, human):
+        logger.info("Sending request to openai")
         bot_name = self.config.get_config("bot_name")
         prompt = self.get_prompt(human)
         response = openai.Completion.create(
@@ -56,7 +60,7 @@ class OpenAI:
         )
         text = response.choices[0].text
         self.write_history(text, human)
-        lang = self.config.get_config("bot_language")
+        logger.info(f"Response: {text}")
         return self.endpoint.translate_request(text, "en", "ru", "Woman", "Женщина: ")
 
 

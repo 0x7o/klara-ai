@@ -2,6 +2,8 @@ from config import Config
 import pyaudio
 import wave
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Sound:
     def __init__(self, config: Config):
@@ -9,6 +11,7 @@ class Sound:
         self.p = pyaudio.PyAudio()
 
     def play(self, sound):
+        logger.info(f"Playing sound: {sound}")
         wf = wave.open(self.config.get_config("sounds")[sound], "rb")
         stream = self.p.open(
             format=self.p.get_format_from_width(wf.getsampwidth()),
