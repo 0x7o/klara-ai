@@ -32,8 +32,8 @@ if __name__ == "__main__":
             text = stt.listen()
             if text != "":
                 print(text)
-            else:
-                is_listening = False
                 pix.think()
                 time.sleep(1)
                 pix.off()
+            else:
+                is_listening = False
