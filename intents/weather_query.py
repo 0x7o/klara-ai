@@ -3,6 +3,7 @@ from fuzzywuzzy import fuzz
 import translators.server as ts
 import requests
 import json
+import re
 
 
 class WeatherQuery:
@@ -61,6 +62,8 @@ class WeatherQuery:
 
         # translate place_name to english
         place_name_en = ts.google(place_name, from_language="ru", to_language="en")
+        # clean place_name_en to A-Z
+        place_name_en = re.sub(r"[^A-Za-z]", "", place_name_en)
         print(place_name_en)
 
         # if no date, use today
