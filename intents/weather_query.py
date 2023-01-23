@@ -9,16 +9,16 @@ class WeatherQuery:
         self.api_key = config.get_config("openweathermap_api_key")
         self.default_city = config.get_config("default_city")
         self.date = {
-            ["сегодня", "сейчас"]: "today",
-            ["завтра"]: "tomorrow",
-            ["послезавтра"]: "after_tomorrow",
+            tuple(["сегодня", "сейчас"]): "today",
+            tuple(["завтра"]): "tomorrow",
+            tuple(["послезавтра"]): "after_tomorrow",
         }
         self.weather_descriptor = {
-            ["солнечно"]: "clear",
-            ["облачно"]: "cloudy",
-            ["дождь"]: "rain",
-            ["снег"]: "snow",
-            ["гроза"]: "thunderstorm",
+            tuple(["солнечно"]): "clear",
+            tuple(["облачно"]): "cloudy",
+            tuple(["дождь"]): "rain",
+            tuple(["снег"]): "snow",
+            tuple(["гроза"]): "thunderstorm",
         }
 
     def get_weather(self, ner):
@@ -35,7 +35,7 @@ class WeatherQuery:
                 date += entity["value"]
 
         for key in self.date.keys():
-            if fuzz.ratio(date, key) > 80:
+            if fuzz.ratio(date, key[0]) > 80 or fuzz.ratio(date, key[1]) > 80:
                 date = self.date[key]
 
         # find and match B-weather_descriptor
@@ -45,7 +45,7 @@ class WeatherQuery:
                 weather_descriptor += entity["value"]
 
         for key in self.weather_descriptor.keys():
-            if fuzz.ratio(weather_descriptor, key) > 80:
+            if fuzz.ratio(weather_descriptor, key[0]) > 80:
                 weather_descriptor = self.weather_descriptor[key]
 
         # if no place_name, use default city
