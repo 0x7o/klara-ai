@@ -52,6 +52,7 @@ if __name__ == "__main__":
                     openai.write_history(tts, text)
                 elif intent == "general_quirky":
                     tts = openai.get_response(text)
+                    print(tts)
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
