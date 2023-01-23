@@ -51,7 +51,10 @@ if __name__ == "__main__":
                     pix.off()
                     openai.write_history(tts, text)
                 elif intent == "general_quirky":
-                    tts = openai.get_response(text)
+                    try:
+                        tts = openai.get_response(text)
+                    except:
+                        tts = "Я куку"
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
