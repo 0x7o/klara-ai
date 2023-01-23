@@ -16,10 +16,12 @@ class DateTimeQuery:
 
         if place_name == "":
             place_name = self.config.get_config("default_city")
-
-        timezone = pytz.timezone(
-            ts.google(place_name, from_language="ru", to_language="en")
-        )
+        try:
+            timezone = pytz.timezone(
+                ts.google(place_name, from_language="ru", to_language="en")
+            )
+        except:
+            timezone = pytz.timezone("Europe/Moscow")
         time = datetime.now(timezone)
         hour = self.convert_temp(time.hour)
         minute = self.convert_temp(time.minute)
