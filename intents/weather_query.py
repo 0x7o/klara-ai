@@ -91,13 +91,10 @@ class WeatherQuery:
         tts = ""
         if date == "today":
             tts += f"Сейчас в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}, ощущается как {self.convert_temp_to_words(data['main']['feels_like'])}."
-            tts += f" Влажность {data['main']['humidity']} процентов, давление {data['main']['pressure']} миллиметров ртутного столба, скорость ветра {data['wind']['speed']} метров в секунду."
         elif date == "tomorrow":
-            tts += f"Завтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
-            tts += f" Влажность {data['main']['humidity']} процентов, давление {data['main']['pressure']} миллиметров ртутного столба, скорость ветра {data['wind']['speed']} метров в секунду."
+            tts += f"Завтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}, ощущается как {self.convert_temp_to_words(data['main']['feels_like'])}."
         elif date == "after_tomorrow":
-            tts += f"Послезавтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
-            tts += f" Влажность {data['main']['humidity']} процентов, давление {data['main']['pressure']} миллиметров ртутного столба, скорость ветра {data['wind']['speed']} метров в секунду."
+            tts += f"Послезавтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}, ощущается как {self.convert_temp_to_words(data['main']['feels_like'])}."
         else:
             tts += f"Не могу предсказать погоду на {date}."
         return tts
