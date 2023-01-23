@@ -41,14 +41,14 @@ if __name__ == "__main__":
                 if intent == "weather_query":
                     weather = WeatherQuery(config)
                     tts = weather.get_weather(ner)
-                    wav = endpoint.tts_request(text)
+                    wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
                     pix.speak()
                     data, fs = sf.read("temp.wav", dtype="float32")
                     sd.play(data, fs)
                     status = sd.wait()
-                    pixels.off()
+                    pix.off()
                 pix.listen()
             else:
                 is_listening = False
