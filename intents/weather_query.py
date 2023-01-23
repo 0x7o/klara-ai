@@ -6,8 +6,8 @@ import json
 class WeatherQuery:
     def __init__(self, config):
         self.url = "https://api.openweathermap.org/data/2.5/weather"
-        self.api_key = config["openweather_api_key"]
-        self.default_city = config["default_city"]
+        self.api_key = config.get_config("openweathermap_api_key")
+        self.default_city = config.get_config("default_city")
         self.date = {
             ["сегодня", "сейчас"]: "today",
             ["завтра"]: "tomorrow",
