@@ -1,3 +1,4 @@
+import translators.server as ts
 from .endpoint import Endpoint
 from .config import Config
 import openai
@@ -50,19 +51,20 @@ class OpenAI:
     def get_response(self, human):
         logger.info("Sending request to openai")
         bot_name = self.config.get_config("bot_name")
+        human = ts.google(human, from_language="ru", to_language="en")
         prompt = self.get_prompt(human)
         response = openai.Completion.create(
             engine="text-ada-001",
-            prompt=prompt,
+            prompt=ts.google(prompt, from_language="ru", to_language="en"),
             temperature=0.9,
             max_tokens=150,
             top_p=1,
             stop=["\n", " Human:", f" {bot_name}:"],
         )
-        text = response.choices[0].text
+        text = response["choices"][0]["text"]
         self.write_history(text, human)
         logger.info(f"Response: {text}")
-        return text
+        return ts.google(text, from_language="en", to_language="ru")
 
 
 if __name__ == "__main__":
