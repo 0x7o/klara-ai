@@ -62,8 +62,8 @@ class WeatherQuery:
 
         # translate place_name to english
         place_name_en = ts.google(place_name, from_language="ru", to_language="en")
-        # clean place_name_en to A-Z and -
-        place_name_en = re.sub(r"[^A-Za-z-]", "", place_name_en)
+        # clean place_name_en and special characters
+        place_name_en = re.sub(r"[^a-zA-Z0-9 ]", "", place_name_en)
         print(place_name_en)
 
         # if no date, use today
