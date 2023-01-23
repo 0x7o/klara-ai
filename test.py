@@ -34,10 +34,11 @@ if __name__ == "__main__":
                 pix.think()
                 intent = endpoint.intent_request(text)
                 print(intent)
+
+                ner = endpoint.ner_request(text)
                 if intent == "weather_query":
                     weather = WeatherQuery(config)
-                    print(weather.get_weather())
-                ner = endpoint.ner_request(text)
+                    print(weather.get_weather(ner))
                 pix.listen()
             else:
                 is_listening = False
