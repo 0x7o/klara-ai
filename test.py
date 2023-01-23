@@ -55,10 +55,10 @@ if __name__ == "__main__":
                     tts = openai.get_response(
                         ts.google(text, from_language="ru", to_language="en")
                     )
-                    if tts == "":
-                        tts = "ыхывх"
-                    else:
+                    try:
                         tts = ts.google(tts, from_language="en", to_language="ru")
+                    except:
+                        tts = "оыа"
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
