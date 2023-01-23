@@ -69,7 +69,7 @@ if __name__ == "__main__":
                     pix.off()
                 elif intent == "datetime_query":
                     datetime = DateTimeQuery(config)
-                    tts = datetime.get_time()
+                    tts = datetime.get_time(ner)
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
