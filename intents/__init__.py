@@ -1,0 +1,1 @@
+from .weather_query import WeatherQuery
