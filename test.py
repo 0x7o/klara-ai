@@ -33,6 +33,9 @@ if __name__ == "__main__":
                 pix.think()
                 intent = endpoint.intent_request(text)
                 print(intent)
+                ner = endpoint.ner_request(text)
+                print(ner)
+
                 pix.listen()
             else:
                 is_listening = False

@@ -54,3 +54,11 @@ class Endpoint:
         data = {"text": text}
         response = requests.post(url, headers=headers, json=data)
         return response.json()[0]["label"]
+
+    def ner_request(self, text):
+        logger.info("Sending request to ner endpoint")
+        url = self.config.get_config("endpoint_url") + "/ner"
+        headers = {"Content-Type": "application/json"}
+        data = {"text": text}
+        response = requests.post(url, headers=headers, json=data)
+        return response.json()
