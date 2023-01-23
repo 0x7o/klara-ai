@@ -37,9 +37,11 @@ class WeatherQuery:
         for key in self.date.keys():
             if fuzz.ratio(date, key[0]) > 80:
                 date = self.date[key]
-
-            if fuzz.ratio(date, key[1]) > 80:
-                date = self.date[key]
+            try:
+                if fuzz.ratio(date, key[1]) > 80:
+                    date = self.date[key]
+            except IndexError:
+                pass
 
         # find and match B-weather_descriptor
         weather_descriptor = ""
