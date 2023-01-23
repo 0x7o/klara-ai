@@ -5,6 +5,7 @@ import json
 import os
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -51,7 +52,7 @@ class OpenAI:
         bot_name = self.config.get_config("bot_name")
         prompt = self.get_prompt(human)
         response = openai.Completion.create(
-            engine="text-curie-003",
+            engine="text-curie-002",
             prompt=prompt,
             temperature=0.9,
             max_tokens=150,
