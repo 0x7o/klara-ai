@@ -81,6 +81,7 @@ class WeatherQuery:
         response = requests.get(self.url, params=params)
         if response.status_code == 200:
             data = json.loads(response.text)
+            print(data)
             tts = self.get_weather_tts(data, date, place_name)
         else:
             tts = f"Не могу получить погоду в {place_name}. Попробуйте сказать ещё раз."
