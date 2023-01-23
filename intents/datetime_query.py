@@ -1,6 +1,7 @@
+import translators.server as ts
 from num2words import num2words
-import datetime
-import requests
+from datetime import datetime
+import pytz
 
 
 class DateTimeQuery:
@@ -15,6 +16,14 @@ class DateTimeQuery:
 
         if place_name == "":
             place_name = self.config.get_config("default_city")
+
+        timezone = pytz.timezone(
+            ts.google(place_name, from_language="ru", to_language="en")
+        )
+        time = datetime.now(timezone)
+        hour = self.convert_temp(time.hour)
+        minute = self.convert_temp(time.minute)
+        return f"Сейчас в {place_name} {hour} часов {minute} минут"
 
     def convert_temp(self, number):
         return num2words(number, to="cardinal", lang="ru")
