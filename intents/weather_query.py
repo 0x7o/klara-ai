@@ -59,6 +59,10 @@ class WeatherQuery:
         if place_name == "":
             place_name = self.default_city
 
+        # translate place_name to english
+        place_name_en = ts.google(place_name, from_language="ru", to_language="en")
+        print(place_name_en)
+
         # if no date, use today
         if date == "":
             date = "today"
@@ -66,7 +70,7 @@ class WeatherQuery:
         # get weather
         tts = ""
         params = {
-            "q": ts.google(place_name, to_language="en"),
+            "q": place_name_en,
             "appid": self.api_key,
             "units": "metric",
             "lang": "ru",
