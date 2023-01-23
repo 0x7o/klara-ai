@@ -1,5 +1,7 @@
 from klara_ai import Config, STT, Sound, OpenAI, Endpoint, pixels
 from intents import *
+import sounddevice as sd
+import soundfile as sf
 import logging
 
 logging.basicConfig(
@@ -38,7 +40,15 @@ if __name__ == "__main__":
                 ner = endpoint.ner_request(text)
                 if intent == "weather_query":
                     weather = WeatherQuery(config)
-                    print(weather.get_weather(ner))
+                    tts = weather.get_weather(ner)
+                    wav = endpoint.tts_request(text)
+                    with open("temp.wav", "wb") as f:
+                        f.write(wav)
+                    pix.speak()
+                    data, fs = sf.read("temp.wav", dtype="float32")
+                    sd.play(data, fs)
+                    status = sd.wait()
+                    pixels.off()
                 pix.listen()
             else:
                 is_listening = False

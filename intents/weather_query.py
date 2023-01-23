@@ -83,7 +83,7 @@ class WeatherQuery:
             data = json.loads(response.text)
             tts = self.get_weather_tts(data, date, place_name)
         else:
-            tts = f"Не могу получить погоду в {place_name}."
+            tts = f"Не могу получить погоду в {place_name}. Попробуйте сказать ещё раз."
 
         return tts
 
