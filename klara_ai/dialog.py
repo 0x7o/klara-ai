@@ -54,7 +54,7 @@ class OpenAI:
         human = ts.google(human, from_language="ru", to_language="en")
         prompt = self.get_prompt(human)
         response = openai.Completion.create(
-            engine="text-ada-001",
+            engine="text-davinci-003",
             prompt=ts.google(prompt, from_language="ru", to_language="en"),
             temperature=0.9,
             max_tokens=150,
