@@ -1,5 +1,6 @@
 from num2words import num2words
 from fuzzywuzzy import fuzz
+import translators.server as ts
 import requests
 import json
 
@@ -65,7 +66,7 @@ class WeatherQuery:
         # get weather
         tts = ""
         params = {
-            "q": place_name,
+            "q": ts.google(place_name, to_language="en"),
             "appid": self.api_key,
             "units": "metric",
             "lang": "ru",
@@ -93,4 +94,4 @@ class WeatherQuery:
         return tts
 
     def convert_temp_to_words(self, temp):
-        return num2words(temp, to="cardinal", lang="ru")
+        return num2words(round(temp), to="cardinal", lang="ru")
