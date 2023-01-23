@@ -52,7 +52,7 @@ class OpenAI:
         bot_name = self.config.get_config("bot_name")
         prompt = self.get_prompt(human)
         response = openai.Completion.create(
-            engine="text-curie-001",
+            engine="text-davinci-003",
             prompt=prompt,
             temperature=0.9,
             max_tokens=150,
