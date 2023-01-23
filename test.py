@@ -50,11 +50,9 @@ if __name__ == "__main__":
                     status = sd.wait()
                     pix.off()
                     openai.write_history(tts, text)
-                elif intent == "general_quirky":
-                    try:
-                        tts = openai.get_response(text)
-                    except:
-                        tts = "Я куку"
+                elif intent == "datetime_query":
+                    datetime = DateTimeQuery(config)
+                    tts = datetime.get_time(ner)
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
@@ -63,9 +61,11 @@ if __name__ == "__main__":
                     sd.play(data, fs)
                     status = sd.wait()
                     pix.off()
-                elif intent == "datetime_query":
-                    datetime = DateTimeQuery(config)
-                    tts = datetime.get_time(ner)
+                else:
+                    try:
+                        tts = openai.get_response(text)
+                    except:
+                        tts = "Я куку"
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
