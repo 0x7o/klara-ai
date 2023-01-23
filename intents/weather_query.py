@@ -1,6 +1,6 @@
 from num2words import num2words
-from fuzzywuzzy import fuzz
 import translators.server as ts
+from fuzzywuzzy import fuzz
 import requests
 import json
 import re

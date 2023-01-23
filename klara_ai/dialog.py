@@ -61,7 +61,7 @@ class OpenAI:
         text = response.choices[0].text
         self.write_history(text, human)
         logger.info(f"Response: {text}")
-        return self.endpoint.translate_request(text, "en", "ru", "Woman", "Женщина: ")
+        return text
 
 
 if __name__ == "__main__":
