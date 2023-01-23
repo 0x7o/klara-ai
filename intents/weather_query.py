@@ -92,5 +92,5 @@ class WeatherQuery:
             tts += f"Не могу предсказать погоду на {date}."
         return tts
 
-    def convert_temp_to_words(temp):
+    def convert_temp_to_words(self, temp):
         return num2words(temp, to="cardinal", lang="ru")
