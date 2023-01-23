@@ -55,9 +55,22 @@ if __name__ == "__main__":
                     tts = openai.get_response(
                         ts.google(text, from_language="ru", to_language="en")
                     )
-                    wav = endpoint.tts_request(
-                        ts.google(tts, from_language="en", to_language="ru")
-                    )
+                    if tts == "":
+                        tts = "ыхывх"
+                    else:
+                        tts = ts.google(tts, from_language="en", to_language="ru")
+                    wav = endpoint.tts_request(tts)
+                    with open("temp.wav", "wb") as f:
+                        f.write(wav)
+                    pix.speak()
+                    data, fs = sf.read("temp.wav", dtype="float32")
+                    sd.play(data, fs)
+                    status = sd.wait()
+                    pix.off()
+                elif intent == "datetime_query":
+                    datetime = DateTimeQuery(config)
+                    tts = datetime.get_time()
+                    wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
                     pix.speak()
