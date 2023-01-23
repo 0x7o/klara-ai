@@ -62,8 +62,8 @@ class WeatherQuery:
 
         # translate place_name to english
         place_name_en = ts.google(place_name, from_language="ru", to_language="en")
-        # clean place_name_en to A-Z
-        place_name_en = re.sub(r"[^A-Za-z]", "", place_name_en)
+        # clean place_name_en to A-Z and -
+        place_name_en = re.sub(r"[^A-Za-z-]", "", place_name_en)
         print(place_name_en)
 
         # if no date, use today
@@ -81,21 +81,21 @@ class WeatherQuery:
         response = requests.get(self.url, params=params)
         if response.status_code == 200:
             data = json.loads(response.text)
-            tts = self.get_weather_tts(data, date)
+            tts = self.get_weather_tts(data, date, place_name)
         else:
             tts = f"Не могу получить погоду в {place_name}."
 
         return tts
 
-    def get_weather_tts(self, data, date):
+    def get_weather_tts(self, data, date, place_name):
         tts = ""
         if date == "today":
-            tts += f"Сейчас в {data['name']} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
+            tts += f"Сейчас в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
             tts += f" Днём ожидается {self.convert_temp_to_words(data['main']['temp_max'])}, а ночью {self.convert_temp_to_words(data['main']['temp_min'])}."
         elif date == "tomorrow":
-            tts += f"Завтра в {data['name']} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
+            tts += f"Завтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
         elif date == "after_tomorrow":
-            tts += f"Послезавтра в {data['name']} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
+            tts += f"Послезавтра в {place_name} {self.convert_temp_to_words(data['main']['temp'])} градусов, {data['weather'][0]['description']}."
         else:
             tts += f"Не могу предсказать погоду на {date}."
         return tts
