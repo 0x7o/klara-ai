@@ -24,15 +24,15 @@ class WeatherQuery:
     def get_weather(self, ner):
         # find and match B-place_name
         place_name = ""
-        for entity in ner["entities"]:
+        for entity in ner:
             if entity["entity"] == "B-place_name":
-                place_name += entity["value"]
+                place_name += entity["word"]
 
         # find and match B-date
         date = ""
-        for entity in ner["entities"]:
+        for entity in ner:
             if entity["entity"] == "B-date":
-                date += entity["value"]
+                date += entity["word"]
 
         for key in self.date.keys():
             if fuzz.ratio(date, key[0]) > 80 or fuzz.ratio(date, key[1]) > 80:
@@ -40,9 +40,9 @@ class WeatherQuery:
 
         # find and match B-weather_descriptor
         weather_descriptor = ""
-        for entity in ner["entities"]:
+        for entity in ner:
             if entity["entity"] == "B-weather_descriptor":
-                weather_descriptor += entity["value"]
+                weather_descriptor += entity["word"]
 
         for key in self.weather_descriptor.keys():
             if fuzz.ratio(weather_descriptor, key[0]) > 80:
