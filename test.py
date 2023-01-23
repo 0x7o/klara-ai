@@ -49,7 +49,7 @@ if __name__ == "__main__":
                     sd.play(data, fs)
                     status = sd.wait()
                     pix.off()
-                    openai.write_history(tts, ai)
+                    openai.write_history(tts, text)
                 elif intent == "general_quirky":
                     tts = openai.get_response(text)
                     wav = endpoint.tts_request(tts)
