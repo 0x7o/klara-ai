@@ -1,6 +1,5 @@
 from klara_ai import Config, STT, Sound, OpenAI, Endpoint, pixels
 from intents import *
-import translators.server as ts
 import sounddevice as sd
 import soundfile as sf
 import logging
@@ -52,13 +51,7 @@ if __name__ == "__main__":
                     pix.off()
                     openai.write_history(tts, text)
                 elif intent == "general_quirky":
-                    tts = openai.get_response(
-                        ts.google(text, from_language="ru", to_language="en")
-                    )
-                    try:
-                        tts = ts.google(tts, from_language="en", to_language="ru")
-                    except:
-                        tts = "оыа"
+                    tts = openai.get_response(text)
                     wav = endpoint.tts_request(tts)
                     with open("temp.wav", "wb") as f:
                         f.write(wav)
